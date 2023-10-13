@@ -25,8 +25,8 @@ class ContatoModel {
   String updatedAt = "";
   late String nome;
   late int telefone;
-  late String email;
-  late String profilePath;
+  String? email = "";
+  String? profilePath = "";
 
   ContatoModel(this.objectId, this.nome, this.telefone, this.email,
       this.profilePath, this.createdAt, this.updatedAt);

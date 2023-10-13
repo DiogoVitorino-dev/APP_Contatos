@@ -1,7 +1,7 @@
 import 'package:contatos_app/models/DatabaseContatoModel.dart';
 
 abstract class InterfaceDatabaseRepository {
-  Future<List<ContatoModel>> get({String? nome});
+  Future<List<ContatoModel>> get();
 
   Future<void> create(ContatoModel contato);
 

@@ -22,4 +22,10 @@ class InterceptorDioDatabase extends Interceptor {
 
     super.onRequest(options, handler);
   }
+
+  @override
+  void onError(DioException e, ErrorInterceptorHandler handler) {
+    print(e.response);
+    return handler.next(e);
+  }
 }

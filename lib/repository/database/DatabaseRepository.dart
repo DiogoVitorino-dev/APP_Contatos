@@ -4,11 +4,11 @@ import 'package:contatos_app/services/api/database/CustomDioDatabase.dart';
 
 class DatabaseRepository implements InterfaceDatabaseRepository {
   @override
-  Future<List<ContatoModel>> get({String? nome}) async {
+  Future<List<ContatoModel>> get() async {
     var dio = CustomDioDatabase().getInstance;
     var url = "/contatos";
 
-    if (nome != null && nome.isNotEmpty) url += '?where={"nome":"$nome"}';
+
 
     var response = await dio.get(url);
 

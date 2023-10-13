@@ -22,6 +22,10 @@ class _ContatosPageState extends State<ContatosPage> {
       loading = true;
     });
 
+    if (nome != null && nome.isNotEmpty) {
+      list = list.where((element) => element.nome.contains(nome)).toList();
+    }
+
     list = await repositoryDatabase.get();
 
     setState(() {
@@ -67,42 +71,37 @@ class _ContatosPageState extends State<ContatosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Consultar Contato"),
+        title: const Text("Contatos"),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await getList();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
         onPressed: () => navigateToDetail("Criar contato", createItem),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: nomeController,
-                    maxLength: 8,
-                    onSubmitted: (value) async {
-                      await getList(nome: value);
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        prefixIcon: const Icon(Icons.search),
-                        hintText: "contato"),
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                IconButton(
-                    onPressed: () async {
-                      await getList();
-                    },
-                    icon: const Icon(Icons.refresh))
-              ],
+            TextField(
+              controller: nomeController,
+              onSubmitted: (value) async {
+                await getList(nome: value);
+              },
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: "nome"),
+            ),
+            const SizedBox(
+              height: 12,
             ),
             loading
                 ? const CircularProgressIndicator()
@@ -119,7 +118,7 @@ class _ContatosPageState extends State<ContatosPage> {
                           child: ContatoItem(
                             contato: item,
                             onPress: () {
-                              navigateToDetail("Criar contato", updateItem,
+                              navigateToDetail("Editar contato", updateItem,
                                   contato: item);
                             },
                           ),
